@@ -1,4 +1,5 @@
 import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
+import { seoPlugin } from "@payloadcms/plugin-seo";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
@@ -41,6 +42,17 @@ export default buildConfig({
       options: {
         token: process.env.UPLOADTHING_TOKEN,
       },
+    }),
+    seoPlugin({
+      collections: [
+        // TODO: Add pages collections upon creation.
+      ],
+      uploadsCollection: "media",
+      generateTitle: ({ doc }: { doc: { title: string } }) =>
+        `GKSS UNISA | ${doc.title}`,
+      generateDescription: ({ doc }: { doc: { excerpt: string } }) =>
+        doc.excerpt,
+      tabbedUI: true,
     }),
   ],
 });
